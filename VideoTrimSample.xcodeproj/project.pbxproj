@@ -11,7 +11,6 @@
 		659BCBC72C8114FD00E0ABDF /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659BCBC62C8114FD00E0ABDF /* ContentView.swift */; };
 		659BCBC92C8114FF00E0ABDF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 659BCBC82C8114FF00E0ABDF /* Assets.xcassets */; };
 		659BCBCC2C8114FF00E0ABDF /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 659BCBCB2C8114FF00E0ABDF /* Preview Assets.xcassets */; };
-		659BCBD32C81152E00E0ABDF /* artvideo2.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 659BCBD22C81152E00E0ABDF /* artvideo2.mp4 */; };
 		659BCBD52C81904000E0ABDF /* TrimmableVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659BCBD42C81904000E0ABDF /* TrimmableVideoView.swift */; };
 		659BCBD72C8192D500E0ABDF /* VideoOps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659BCBD62C8192D500E0ABDF /* VideoOps.swift */; };
 		659BCBD92C81934900E0ABDF /* VideoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659BCBD82C81934900E0ABDF /* VideoPicker.swift */; };
@@ -24,7 +23,6 @@
 		659BCBC62C8114FD00E0ABDF /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		659BCBC82C8114FF00E0ABDF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		659BCBCB2C8114FF00E0ABDF /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		659BCBD22C81152E00E0ABDF /* artvideo2.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = artvideo2.mp4; sourceTree = "<group>"; };
 		659BCBD42C81904000E0ABDF /* TrimmableVideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrimmableVideoView.swift; sourceTree = "<group>"; };
 		659BCBD62C8192D500E0ABDF /* VideoOps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoOps.swift; sourceTree = "<group>"; };
 		659BCBD82C81934900E0ABDF /* VideoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPicker.swift; sourceTree = "<group>"; };
@@ -62,7 +60,6 @@
 			isa = PBXGroup;
 			children = (
 				659BCBC42C8114FD00E0ABDF /* VideoTrimSampleApp.swift */,
-				659BCBD22C81152E00E0ABDF /* artvideo2.mp4 */,
 				659BCBC62C8114FD00E0ABDF /* ContentView.swift */,
 				659BCBC82C8114FF00E0ABDF /* Assets.xcassets */,
 				659BCBCA2C8114FF00E0ABDF /* Preview Content */,
@@ -140,7 +137,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				659BCBD32C81152E00E0ABDF /* artvideo2.mp4 in Resources */,
 				659BCBCC2C8114FF00E0ABDF /* Preview Assets.xcassets in Resources */,
 				659BCBC92C8114FF00E0ABDF /* Assets.xcassets in Resources */,
 			);
