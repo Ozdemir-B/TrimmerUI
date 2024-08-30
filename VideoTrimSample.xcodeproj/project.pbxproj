@@ -15,6 +15,7 @@
 		659BCBD72C8192D500E0ABDF /* VideoOps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659BCBD62C8192D500E0ABDF /* VideoOps.swift */; };
 		659BCBD92C81934900E0ABDF /* VideoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659BCBD82C81934900E0ABDF /* VideoPicker.swift */; };
 		659BCBDB2C8196D300E0ABDF /* VideoEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659BCBDA2C8196D300E0ABDF /* VideoEditorView.swift */; };
+		659BCBDD2C84B16400E0ABDF /* VideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659BCBDC2C84B16400E0ABDF /* VideoView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 		659BCBD62C8192D500E0ABDF /* VideoOps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoOps.swift; sourceTree = "<group>"; };
 		659BCBD82C81934900E0ABDF /* VideoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPicker.swift; sourceTree = "<group>"; };
 		659BCBDA2C8196D300E0ABDF /* VideoEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoEditorView.swift; sourceTree = "<group>"; };
+		659BCBDC2C84B16400E0ABDF /* VideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +69,7 @@
 				659BCBD62C8192D500E0ABDF /* VideoOps.swift */,
 				659BCBD82C81934900E0ABDF /* VideoPicker.swift */,
 				659BCBDA2C8196D300E0ABDF /* VideoEditorView.swift */,
+				659BCBDC2C84B16400E0ABDF /* VideoView.swift */,
 			);
 			path = VideoTrimSample;
 			sourceTree = "<group>";
@@ -150,6 +153,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				659BCBD52C81904000E0ABDF /* TrimmableVideoView.swift in Sources */,
+				659BCBDD2C84B16400E0ABDF /* VideoView.swift in Sources */,
 				659BCBDB2C8196D300E0ABDF /* VideoEditorView.swift in Sources */,
 				659BCBD92C81934900E0ABDF /* VideoPicker.swift in Sources */,
 				659BCBC72C8114FD00E0ABDF /* ContentView.swift in Sources */,
