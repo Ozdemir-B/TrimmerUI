@@ -28,10 +28,15 @@ struct ContentView: View {
                     })
                 }
                 Spacer()
-                VideoView(videoURL: videoUrl,trimmedVideo: $trimmedVideo)
-                    .onAppear{
-                        trimmedVideo = nil
-                    }
+                VideoView(videoURL: videoUrl,trimmedVideo: $trimmedVideo){
+                    isTrimmed in
+                    print(isTrimmed)
+                    print("completion : \(isTrimmed)")
+                }
+                .onDisappear{
+                    //self.videoUrl = nil
+                }
+                    
                 Spacer()
             } else {
                 if let trimmedVideo = self.trimmedVideo{

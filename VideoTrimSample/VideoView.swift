@@ -31,6 +31,9 @@ struct VideoView: View {
     let width = UIScreen.main.bounds.width
     
     @Binding var trimmedVideo: URL?
+    var action:((Bool) -> Void)?
+    
+    
     @State var trimStart: Double?
     @State var trimEnd: Double?
     
@@ -41,17 +44,43 @@ struct VideoView: View {
     @State private var endTrim: CGFloat = 1.0
     @State private var videoDuration: Double?
     
+    @State var showProgress:Bool = false
     
     @State private var isPlaying: Bool = false
     
-    init(videoURL: URL, trimmedVideo: Binding<URL?>) {
+    @State var leftMoving:Bool = false
+    @State var rightMoving:Bool = false
+    
+    init(videoURL: URL, trimmedVideo: Binding<URL?>,trimmedCompletion:@escaping (Bool)->Void) {
+        self.action = trimmedCompletion
         self.videoURL = videoURL
         self._player = State(initialValue: AVPlayer(url: videoURL))
         self._trimmedVideo = trimmedVideo
     }
     
     func trimVideo(completion: @escaping (Bool) -> Void) {
-        guard let start = trimStart, let end = trimEnd else { return }
+        
+        /*guard let start = trimStart, let end = trimEnd else {
+            completion(false)
+            return }*/
+        
+        //trimStart = Double(startTrim) * (videoDuration ?? 1.0)
+        if videoDuration == nil{
+            videoDuration = player.currentItem?.asset.duration.seconds
+        }
+        
+        if trimStart == nil{
+            trimStart = Double(startTrim) * (videoDuration ?? 1.0)
+        }
+        
+        if trimEnd == nil{
+            trimEnd = Double(endTrim) * (videoDuration ?? 1.0)
+        }
+        
+        let start = trimStart ?? 0
+        let end = trimEnd ?? videoDuration!
+        
+        self.showProgress = true
         
         let asset = AVAsset(url: videoURL)
         let exportSession = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetHighestQuality)
@@ -74,16 +103,27 @@ struct VideoView: View {
             case .completed:
                 DispatchQueue.main.async {
                     self.trimmedVideo = trimmedOutputURL
+                    self.showProgress = false
                     completion(true)
                 }
             case .failed, .cancelled:
+                self.showProgress = false
                 completion(false)
                 print("Failed to export video: \(exportSession?.error?.localizedDescription ?? "Unknown error")")
             default:
+                self.showProgress = false
                 completion(false)
                 break
             }
         }
+    }
+    
+    var progressView: some View{
+        ProgressView("")
+            .progressViewStyle(.circular)
+            .tint(.white)
+            .scaleEffect(2)
+            .padding(30)
     }
     
     var body: some View {
@@ -95,6 +135,7 @@ struct VideoView: View {
                         generateThumbnails(from: videoURL)
                         observePlayerProgress()
                         videoDuration = player.currentItem?.asset.duration.seconds
+                        self.trimmedVideo = nil
                     }
                     .overlay(
                         ZStack {
@@ -145,6 +186,10 @@ struct VideoView: View {
                 /*if let trimmedVideo = trimmedVideo {
                     Text("Trimmed video saved at: \(trimmedVideo.path)")
                 }*/
+                
+                if showProgress{
+                    progressView
+                }
             }
             
             ZStack(alignment: .leading) {
@@ -160,7 +205,7 @@ struct VideoView: View {
                 .clipped()
                 
                 Rectangle()
-                    .fill(Color.red)
+                    .fill(Color.red.opacity(0))
                     .frame(width: 2, height: 60)
                     .offset(x: sliderProgress * UIScreen.main.bounds.width)
                     .gesture(
@@ -175,16 +220,29 @@ struct VideoView: View {
                 
                 Group {
                     Rectangle()
-                        .fill(Color.blue)
-                        .frame(width: 6)
+                        .fill(Color.orange) //255,203,1
+                        .frame(width: leftMoving ? 20 : 10)
+                        .overlay(
+                            VStack{
+                                if leftMoving{
+                                    Image(systemName:"chevron.right").resizable().scaledToFit().frame(width:10).foregroundStyle(.black)
+                                }
+                            }
+                        )
                         .offset(x: startTrim * UIScreen.main.bounds.width)
                         .gesture(
                             DragGesture()
                                 .onChanged { value in
+                                    withAnimation(.linear(duration: 0.5)){
+                                        leftMoving = true
+                                    }
                                     startTrim = max(0, min(value.location.x / UIScreen.main.bounds.width, endTrim))
                                     trimStart = Double(startTrim) * (videoDuration ?? 1.0)
                                 }
                                 .onEnded { value in
+                                    withAnimation(.linear(duration: 0.5)){
+                                        leftMoving = false
+                                    }
                                     if let start = trimStart {
                                         player.seek(to: CMTime(seconds: start, preferredTimescale: 600))
                                     }
@@ -192,16 +250,29 @@ struct VideoView: View {
                         )
                     
                     Rectangle()
-                        .fill(Color.blue)
-                        .frame(width: 6)
-                        .offset(x: (endTrim * UIScreen.main.bounds.width) - 6)
+                        .fill(Color.orange)
+                        .frame(width: rightMoving ? 20 : 10)
+                        .overlay(
+                            VStack{
+                                if rightMoving{
+                                    Image(systemName:"chevron.left").resizable().scaledToFit().frame(width:10).foregroundStyle(.black)
+                                }
+                            }
+                        )
+                        .offset(x: (endTrim * UIScreen.main.bounds.width) - (rightMoving ? 20 : 10))
                         .gesture(
                             DragGesture()
                                 .onChanged { value in
+                                    withAnimation(.linear(duration: 0.5)){
+                                        rightMoving = true
+                                    }
                                     endTrim = max(startTrim, min(value.location.x / UIScreen.main.bounds.width, 1))
                                     trimEnd = Double(endTrim) * (videoDuration ?? 1.0)
                                 }
                                 .onEnded { value in
+                                    withAnimation(.linear(duration: 0.5)){
+                                        rightMoving = false
+                                    }
                                     if let start = trimStart {
                                         player.seek(to: CMTime(seconds: start, preferredTimescale: 600))
                                     }
@@ -210,11 +281,11 @@ struct VideoView: View {
                 }
                 
                 Rectangle()
-                    .fill(Color.black.opacity(0.5))
+                    .fill(Color.black.opacity(0.65))
                     .frame(width: startTrim * UIScreen.main.bounds.width, height: 60)
                 
                 Rectangle()
-                    .fill(Color.black.opacity(0.5))
+                    .fill(Color.black.opacity(0.65))
                     .frame(width: (1 - endTrim) * UIScreen.main.bounds.width, height: 60)
                     .offset(x: endTrim * UIScreen.main.bounds.width)
             }
@@ -222,12 +293,16 @@ struct VideoView: View {
             .frame(width: width)
             
             Button(action: {
-                trimVideo { isDone in
-                    if isDone {
-                        //showTrimmed = true
-                        print("trim saved...")
-                        print("add your code here")
+                if !showProgress{
+                    trimVideo { isDone in
+                        
+                        if let action = action{
+                                action(isDone)
+                        }
                     }
+                }
+                else{
+                    print("video trimming in progress")
                 }
             }) {
                 Text("Trim Video")
